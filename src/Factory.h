@@ -152,6 +152,12 @@
 #include <UviewRoiCtrlObj.h>
 #endif
 
+#ifdef SLS_ENABLED
+#include <SlsDetectorCamera.h>
+#include <SlsDetectorInterface.h>
+#include <SlsDetectorEiger.h>
+#endif
+
 using namespace lima;
 
 class ControlFactory : public Singleton<ControlFactory>

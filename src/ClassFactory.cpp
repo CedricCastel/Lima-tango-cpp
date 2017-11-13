@@ -123,6 +123,10 @@ static const char *RcsId = "$Id:  $";
 #include <EigerClass.h>
 #endif
 
+#ifdef SLS_ENABLED
+#include <SlsDetectorClass.h>
+#endif
+
 #ifndef WIN32
 #include "tango.h"
 #endif
@@ -217,6 +221,10 @@ void Tango::DServer::class_factory()
 	
 #ifdef ROICOUNTERS_ENABLED    
     add_class(RoiCounters_ns::RoiCountersClass::init("RoiCounters"));
+#endif	
+
+#ifdef SLS_ENABLED        
+    add_class(SlsDetector_ns::SlsDetectorClass::init("SlsDetector"));
 #endif	
 }
 

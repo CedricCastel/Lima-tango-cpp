@@ -114,7 +114,6 @@ CtControl* ControlFactory::create_control(const std::string& detector_type)
                 db_data[0] >> detector_id;
                 db_data[1] >> database_file;
                 m_camera = static_cast<void*> (new Aviex::Camera(detector_id, database_file));
-
                 m_interface = static_cast<void*> (new Aviex::Interface(*static_cast<Aviex::Camera*> (m_camera)));
                 m_control = new CtControl(static_cast<Aviex::Interface*> (m_interface));
                 ControlFactory::m_is_created = true;
@@ -563,6 +562,33 @@ CtControl* ControlFactory::create_control(const std::string& detector_type)
         }
 #endif
 
+#ifdef SLS_ENABLED
+        if (detector_type == "Sls")
+        {
+            if (!ControlFactory::m_is_created)
+            {
+                Tango::DbData db_data;
+                db_data.push_back(Tango::DbDatum("ConfigFileName"));
+                (Tango::Util::instance()->get_database())->get_device_property(m_device_name_specific, db_data);
+                std::string config_fname;
+                db_data[0] >> config_fname;
+                SlsDetector::Camera * sls_camera = new SlsDetector::Camera(config_fname);
+                m_camera = static_cast<void*> (sls_camera);
+                
+                if(sls_camera->getType() == SlsDetector::Camera::Type::EigerDet)
+                {
+                    cout << "EigerDet!!" << endl;
+                    new lima::SlsDetector::Eiger(static_cast<SlsDetector::Camera *>(m_camera));
+                }
+				
+                m_interface = static_cast<void*> (new SlsDetector::Interface(*(static_cast<SlsDetector::Camera*> (m_camera))));
+                m_control = new CtControl(static_cast<SlsDetector::Interface*> (m_interface));
+                ControlFactory::m_is_created = true;
+                return m_control;
+            }
+        }
+#endif           
+
         if (!ControlFactory::m_is_created)
         {
             string strMsg = "Unable to create the lima control object : Unknown Detector Type : ";
@@ -748,6 +774,13 @@ void ControlFactory::reset(const std::string& detector_type)
                 if (detector_type == "UviewCCD")
                 {
                     delete (static_cast<Uview::Camera*> (m_camera));
+                }
+#endif     
+
+#ifdef SLS_ENABLED        
+                if (detector_type == "Sls")
+                {
+                    delete (static_cast<SlsDetector::Camera*> (m_camera));
                 }
 #endif     
 
