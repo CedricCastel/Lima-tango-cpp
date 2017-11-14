@@ -58,7 +58,7 @@ CtControl* ControlFactory::create_control(const std::string& detector_type)
             initialize();
 
             {
-                std::string specific = detector_type;
+				std::string specific = detector_type;
                 Tango::DbDatum db_datum;
                 m_device_name_generic = Tango::Util::instance()->get_ds_name();
                 db_datum = (Tango::Util::instance()->get_database())->get_device_name(m_device_name_generic, specific);
@@ -563,27 +563,48 @@ CtControl* ControlFactory::create_control(const std::string& detector_type)
 #endif
 
 #ifdef SLS_ENABLED
-        if (detector_type == "Sls")
+        if (detector_type == "SlsDetector")
         {
             if (!ControlFactory::m_is_created)
             {
-                Tango::DbData db_data;
+                cout << "m_device_name_specific : " << m_device_name_specific << endl;
+
+				Tango::DbData db_data;
                 db_data.push_back(Tango::DbDatum("ConfigFileName"));
                 (Tango::Util::instance()->get_database())->get_device_property(m_device_name_specific, db_data);
                 std::string config_fname;
                 db_data[0] >> config_fname;
+				
+                cout << "config_fname : " << config_fname << endl;
+				
                 SlsDetector::Camera * sls_camera = new SlsDetector::Camera(config_fname);
                 m_camera = static_cast<void*> (sls_camera);
                 
                 if(sls_camera->getType() == SlsDetector::Camera::Type::EigerDet)
                 {
                     cout << "EigerDet!!" << endl;
-                    new lima::SlsDetector::Eiger(static_cast<SlsDetector::Camera *>(m_camera));
+					
+//                    AutoPtr<lima::SlsDetector::Eiger>             m_eiger = new lima::SlsDetector::Eiger(static_cast<SlsDetector::Camera *>(m_camera));
+//					AutoPtr<lima::SlsDetector::Eiger::Correction> m_corr  = new lima::SlsDetector::Eiger::Correction(m_eiger);
+
+                    lima::SlsDetector::Eiger * m_eiger = new lima::SlsDetector::Eiger(static_cast<SlsDetector::Camera *>(m_camera));
+					
+					if(m_eiger)
+					{
+						m_interface = static_cast<void*> (new SlsDetector::Interface(*(static_cast<SlsDetector::Camera*> (m_camera))));
+						m_control = new CtControl(static_cast<SlsDetector::Interface*> (m_interface));
+
+						lima::SlsDetector::Eiger::Correction * m_corr  = new lima::SlsDetector::Eiger::Correction(m_eiger);
+
+						if (m_corr)
+						{
+							m_control->setReconstructionTask(m_corr);
+						}
+					
+						ControlFactory::m_is_created = true;
+					}
                 }
 				
-                m_interface = static_cast<void*> (new SlsDetector::Interface(*(static_cast<SlsDetector::Camera*> (m_camera))));
-                m_control = new CtControl(static_cast<SlsDetector::Interface*> (m_interface));
-                ControlFactory::m_is_created = true;
                 return m_control;
             }
         }
@@ -778,7 +799,7 @@ void ControlFactory::reset(const std::string& detector_type)
 #endif     
 
 #ifdef SLS_ENABLED        
-                if (detector_type == "Sls")
+                if (detector_type == "SlsDetector")
                 {
                     delete (static_cast<SlsDetector::Camera*> (m_camera));
                 }

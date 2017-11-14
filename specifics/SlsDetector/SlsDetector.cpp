@@ -539,7 +539,7 @@ void SlsDetector::write_clockDivider(Tango::WAttribute &attr)
     try
     {
         // set the camera value
-        Camera::setClockDiv(clock_divider);
+        m_camera->setClockDiv(clock_divider);
 	}
 	catch(Tango::DevFailed& df)
 	{
