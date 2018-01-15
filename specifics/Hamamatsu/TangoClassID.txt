@@ -1,0 +1,11 @@
+/**
+ * Device Class Identification:
+ * 
+ * Class Name   :	Hamamatsu
+ * Contact      :	cedric.castel@synchrotron.fr
+ * Class Family :	Miscellaneous
+ * Platform     :	All Platforms
+ * Bus          :	Not Applicable
+ * Manufacturer :	none
+ * Reference    :	
+ */

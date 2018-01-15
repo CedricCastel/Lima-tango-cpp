@@ -108,7 +108,7 @@ std::vector<enum lima::SlsDetector::Defs::ClockDiv> TANGO_CLOCK_DIVIDER_LABELS_T
  */
 //--------------------------------------------------------
 SlsDetector::SlsDetector(Tango::DeviceClass *cl, string &s)
- : TANGO_BASE_CLASS(cl, s.c_str()),m_dim(this)
+ : TANGO_BASE_CLASS(cl, s.c_str())
 {
 	/*----- PROTECTED REGION ID(SlsDetector::constructor_1) ENABLED START -----*/
 	init_device();
@@ -117,7 +117,7 @@ SlsDetector::SlsDetector(Tango::DeviceClass *cl, string &s)
 }
 //--------------------------------------------------------
 SlsDetector::SlsDetector(Tango::DeviceClass *cl, const char *s)
- : TANGO_BASE_CLASS(cl, s),m_dim(this)
+ : TANGO_BASE_CLASS(cl, s)
 {
 	/*----- PROTECTED REGION ID(SlsDetector::constructor_2) ENABLED START -----*/
 	init_device();
@@ -126,7 +126,7 @@ SlsDetector::SlsDetector(Tango::DeviceClass *cl, const char *s)
 }
 //--------------------------------------------------------
 SlsDetector::SlsDetector(Tango::DeviceClass *cl, const char *s, const char *d)
- : TANGO_BASE_CLASS(cl, s, d),m_dim(this)
+ : TANGO_BASE_CLASS(cl, s, d)
 {
 	/*----- PROTECTED REGION ID(SlsDetector::constructor_3) ENABLED START -----*/
 	init_device();
@@ -336,7 +336,7 @@ void SlsDetector::get_device_property()
 //--------------------------------------------------------
 void SlsDetector::always_executed_hook()
 {
-	DEBUG_STREAM << "SlsDetector::always_executed_hook()  " << device_name << endl;
+	INFO_STREAM << "SlsDetector::always_executed_hook()  " << device_name << endl;
 	/*----- PROTECTED REGION ID(SlsDetector::always_executed_hook) ENABLED START -----*/
 	
 	//	code always executed before all requests

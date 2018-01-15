@@ -56,11 +56,11 @@ namespace SlsDetector_ns
 
 //--------------------------------------------------------
 /**
- *	Method      : SlsDetector::is_tresholdEnergy_allowed()
- *	Description : Execution allowed for tresholdEnergy attribute
+ *	Method      : SlsDetector::is_thresholdEnergy_allowed()
+ *	Description : Execution allowed for thresholdEnergy attribute
  */
 //--------------------------------------------------------
-bool SlsDetector::is_tresholdEnergy_allowed(TANGO_UNUSED(Tango::AttReqType type))
+bool SlsDetector::is_thresholdEnergy_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
 	//	Check access type.
 	if ( type!=Tango::READ_REQ )
@@ -70,9 +70,9 @@ bool SlsDetector::is_tresholdEnergy_allowed(TANGO_UNUSED(Tango::AttReqType type)
 			get_state()==Tango::FAULT ||
 			get_state()==Tango::RUNNING)
 		{
-		/*----- PROTECTED REGION ID(SlsDetector::tresholdEnergyStateAllowed_WRITE) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	SlsDetector::tresholdEnergyStateAllowed_WRITE
+		/*----- PROTECTED REGION ID(SlsDetector::thresholdEnergyStateAllowed_WRITE) ENABLED START -----*/
+		
+		/*----- PROTECTED REGION END -----*/	//	SlsDetector::thresholdEnergyStateAllowed_WRITE
 			return false;
 		}
 		return true;
@@ -84,12 +84,11 @@ bool SlsDetector::is_tresholdEnergy_allowed(TANGO_UNUSED(Tango::AttReqType type)
 	{
 		//	Compare device state with not allowed states for READ 
 		if (get_state()==Tango::INIT ||
-			get_state()==Tango::FAULT ||
-			get_state()==Tango::RUNNING)
+			get_state()==Tango::FAULT)
 		{
-		/*----- PROTECTED REGION ID(SlsDetector::tresholdEnergyStateAllowed_READ) ENABLED START -----*/
-	
-	/*----- PROTECTED REGION END -----*/	//	SlsDetector::tresholdEnergyStateAllowed_READ
+		/*----- PROTECTED REGION ID(SlsDetector::thresholdEnergyStateAllowed_READ) ENABLED START -----*/
+		
+		/*----- PROTECTED REGION END -----*/	//	SlsDetector::thresholdEnergyStateAllowed_READ
 			return false;
 		}
 		return true;
@@ -105,20 +104,424 @@ bool SlsDetector::is_tresholdEnergy_allowed(TANGO_UNUSED(Tango::AttReqType type)
 //--------------------------------------------------------
 bool SlsDetector::is_clockDivider_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
-	//	Not any excluded states for clockDivider attribute in Write access.
-	/*----- PROTECTED REGION ID(SlsDetector::clockDividerStateAllowed_WRITE) ENABLED START -----*/
+	//	Check access type.
+	if ( type!=Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for WRITE 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT ||
+			get_state()==Tango::RUNNING)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::clockDividerStateAllowed_WRITE) ENABLED START -----*/
 	
 	/*----- PROTECTED REGION END -----*/	//	SlsDetector::clockDividerStateAllowed_WRITE
+			return false;
+		}
+		return true;
+	}
+	else
 
-	//	Not any excluded states for clockDivider attribute in read access.
-	/*----- PROTECTED REGION ID(SlsDetector::clockDividerStateAllowed_READ) ENABLED START -----*/
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::clockDividerStateAllowed_READ) ENABLED START -----*/
 	
 	/*----- PROTECTED REGION END -----*/	//	SlsDetector::clockDividerStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_configFileName_allowed()
+ *	Description : Execution allowed for configFileName attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_configFileName_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Not any excluded states for configFileName attribute in read access.
+	/*----- PROTECTED REGION ID(SlsDetector::configFileNameStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::configFileNameStateAllowed_READ
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_rawMode_allowed()
+ *	Description : Execution allowed for rawMode attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_rawMode_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+	//	Check access type.
+	if ( type!=Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for WRITE 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT ||
+			get_state()==Tango::RUNNING)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::rawModeStateAllowed_WRITE) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::rawModeStateAllowed_WRITE
+			return false;
+		}
+		return true;
+	}
+	else
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::rawModeStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::rawModeStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_readoutFlags_allowed()
+ *	Description : Execution allowed for readoutFlags attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_readoutFlags_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+	//	Check access type.
+	if ( type!=Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for WRITE 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT ||
+			get_state()==Tango::RUNNING)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::readoutFlagsStateAllowed_WRITE) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::readoutFlagsStateAllowed_WRITE
+			return false;
+		}
+		return true;
+	}
+	else
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::readoutFlagsStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::readoutFlagsStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_tolerateLostPackets_allowed()
+ *	Description : Execution allowed for tolerateLostPackets attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_tolerateLostPackets_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+	//	Check access type.
+	if ( type!=Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for WRITE 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT ||
+			get_state()==Tango::RUNNING)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::tolerateLostPacketsStateAllowed_WRITE) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::tolerateLostPacketsStateAllowed_WRITE
+			return false;
+		}
+		return true;
+	}
+	else
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::tolerateLostPacketsStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::tolerateLostPacketsStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_nbBadFrames_allowed()
+ *	Description : Execution allowed for nbBadFrames attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_nbBadFrames_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::nbBadFramesStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::nbBadFramesStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_hostnameList_allowed()
+ *	Description : Execution allowed for hostnameList attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_hostnameList_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::hostnameListStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::hostnameListStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_dacNameList_allowed()
+ *	Description : Execution allowed for dacNameList attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_dacNameList_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::dacNameListStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::dacNameListStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_dacNameListMv_allowed()
+ *	Description : Execution allowed for dacNameListMv attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_dacNameListMv_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::dacNameListMvStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::dacNameListMvStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_adcNameList_allowed()
+ *	Description : Execution allowed for adcNameList attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_adcNameList_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::adcNameListStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::adcNameListStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_allTrimBits_allowed()
+ *	Description : Execution allowed for allTrimBits attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_allTrimBits_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+	//	Check access type.
+	if ( type!=Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for WRITE 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT ||
+			get_state()==Tango::RUNNING)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::allTrimBitsStateAllowed_WRITE) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::allTrimBitsStateAllowed_WRITE
+			return false;
+		}
+		return true;
+	}
+	else
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::allTrimBitsStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::allTrimBitsStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_badFrameList_allowed()
+ *	Description : Execution allowed for badFrameList attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_badFrameList_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Check access type.
+	if ( type==Tango::READ_REQ )
+	{
+		//	Compare device state with not allowed states for READ 
+		if (get_state()==Tango::INIT ||
+			get_state()==Tango::FAULT)
+		{
+		/*----- PROTECTED REGION ID(SlsDetector::badFrameListStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::badFrameListStateAllowed_READ
+			return false;
+		}
+		return true;
+	}
 	return true;
 }
 
 //=================================================
 //		Commands Allowed Methods
 //=================================================
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_SetCmd_allowed()
+ *	Description : Execution allowed for SetCmd attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_SetCmd_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::INIT ||
+		get_state()==Tango::FAULT ||
+		get_state()==Tango::RUNNING)
+	{
+	/*----- PROTECTED REGION ID(SlsDetector::SetCmdStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::SetCmdStateAllowed
+		return false;
+	}
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : SlsDetector::is_GetCmd_allowed()
+ *	Description : Execution allowed for GetCmd attribute
+ */
+//--------------------------------------------------------
+bool SlsDetector::is_GetCmd_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Compare device state with not allowed states.
+	if (get_state()==Tango::INIT ||
+		get_state()==Tango::FAULT ||
+		get_state()==Tango::RUNNING)
+	{
+	/*----- PROTECTED REGION ID(SlsDetector::GetCmdStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	SlsDetector::GetCmdStateAllowed
+		return false;
+	}
+	return true;
+}
 
 }	//	End of namespace

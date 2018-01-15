@@ -88,8 +88,19 @@ public:
 
 //	Attribute data members
 public:
-	Tango::DevLong	*attr_tresholdEnergy_read;
+	Tango::DevLong	*attr_thresholdEnergy_read;
 	Tango::DevString	*attr_clockDivider_read;
+	Tango::DevString	*attr_configFileName_read;
+	Tango::DevBoolean	*attr_rawMode_read;
+	Tango::DevString	*attr_readoutFlags_read;
+	Tango::DevBoolean	*attr_tolerateLostPackets_read;
+	Tango::DevLong	*attr_nbBadFrames_read;
+	Tango::DevString	*attr_hostnameList_read;
+	Tango::DevString	*attr_dacNameList_read;
+	Tango::DevString	*attr_dacNameListMv_read;
+	Tango::DevString	*attr_adcNameList_read;
+	Tango::DevLong	*attr_allTrimBits_read;
+	Tango::DevLong	*attr_badFrameList_read;
 
 //	Constructors and destructors
 public:
@@ -159,15 +170,15 @@ public:
 	virtual void write_attr_hardware(vector<long> &attr_list);
 
 /**
- *	Attribute tresholdEnergy related methods
+ *	Attribute thresholdEnergy related methods
  *	Description: 
  *
  *	Data type:	Tango::DevLong
  *	Attr type:	Scalar
  */
-	virtual void read_tresholdEnergy(Tango::Attribute &attr);
-	virtual void write_tresholdEnergy(Tango::WAttribute &attr);
-	virtual bool is_tresholdEnergy_allowed(Tango::AttReqType type);
+	virtual void read_thresholdEnergy(Tango::Attribute &attr);
+	virtual void write_thresholdEnergy(Tango::WAttribute &attr);
+	virtual bool is_thresholdEnergy_allowed(Tango::AttReqType type);
 /**
  *	Attribute clockDivider related methods
  *	Description: Changes the readout clock.<br>
@@ -183,6 +194,109 @@ public:
 	virtual void read_clockDivider(Tango::Attribute &attr);
 	virtual void write_clockDivider(Tango::WAttribute &attr);
 	virtual bool is_clockDivider_allowed(Tango::AttReqType type);
+/**
+ *	Attribute configFileName related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Scalar
+ */
+	virtual void read_configFileName(Tango::Attribute &attr);
+	virtual bool is_configFileName_allowed(Tango::AttReqType type);
+/**
+ *	Attribute rawMode related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+	virtual void read_rawMode(Tango::Attribute &attr);
+	virtual void write_rawMode(Tango::WAttribute &attr);
+	virtual bool is_rawMode_allowed(Tango::AttReqType type);
+/**
+ *	Attribute readoutFlags related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Scalar
+ */
+	virtual void read_readoutFlags(Tango::Attribute &attr);
+	virtual void write_readoutFlags(Tango::WAttribute &attr);
+	virtual bool is_readoutFlags_allowed(Tango::AttReqType type);
+/**
+ *	Attribute tolerateLostPackets related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+	virtual void read_tolerateLostPackets(Tango::Attribute &attr);
+	virtual void write_tolerateLostPackets(Tango::WAttribute &attr);
+	virtual bool is_tolerateLostPackets_allowed(Tango::AttReqType type);
+/**
+ *	Attribute nbBadFrames related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong
+ *	Attr type:	Scalar
+ */
+	virtual void read_nbBadFrames(Tango::Attribute &attr);
+	virtual bool is_nbBadFrames_allowed(Tango::AttReqType type);
+/**
+ *	Attribute hostnameList related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Spectrum max = 64
+ */
+	virtual void read_hostnameList(Tango::Attribute &attr);
+	virtual bool is_hostnameList_allowed(Tango::AttReqType type);
+/**
+ *	Attribute dacNameList related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Spectrum max = 64
+ */
+	virtual void read_dacNameList(Tango::Attribute &attr);
+	virtual bool is_dacNameList_allowed(Tango::AttReqType type);
+/**
+ *	Attribute dacNameListMv related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Spectrum max = 64
+ */
+	virtual void read_dacNameListMv(Tango::Attribute &attr);
+	virtual bool is_dacNameListMv_allowed(Tango::AttReqType type);
+/**
+ *	Attribute adcNameList related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Spectrum max = 64
+ */
+	virtual void read_adcNameList(Tango::Attribute &attr);
+	virtual bool is_adcNameList_allowed(Tango::AttReqType type);
+/**
+ *	Attribute allTrimBits related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong
+ *	Attr type:	Spectrum max = 64
+ */
+	virtual void read_allTrimBits(Tango::Attribute &attr);
+	virtual void write_allTrimBits(Tango::WAttribute &attr);
+	virtual bool is_allTrimBits_allowed(Tango::AttReqType type);
+/**
+ *	Attribute badFrameList related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevLong
+ *	Attr type:	Spectrum max = 100000
+ */
+	virtual void read_badFrameList(Tango::Attribute &attr);
+	virtual bool is_badFrameList_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
@@ -197,6 +311,23 @@ public:
 
 //	Command related methods
 public:
+	/**
+	 *	Command SetCmd related method
+	 *	Description: 
+	 *
+	 *	@param argin SlsDetector command
+	 */
+	virtual void set_cmd(Tango::DevString argin);
+	virtual bool is_SetCmd_allowed(const CORBA::Any &any);
+	/**
+	 *	Command GetCmd related method
+	 *	Description: 
+	 *
+	 *	@param argin SlsDetector command
+	 *	@returns SlsDetector response
+	 */
+	virtual Tango::DevString get_cmd(Tango::DevString argin);
+	virtual bool is_GetCmd_allowed(const CORBA::Any &any);
 
 
 /*----- PROTECTED REGION ID(SlsDetector::Additional Method prototypes) ENABLED START -----*/

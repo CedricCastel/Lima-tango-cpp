@@ -59,19 +59,19 @@ namespace SlsDetector_ns
 //=========================================
 //	Define classes for attributes
 //=========================================
-//	Attribute tresholdEnergy class definition
-class tresholdEnergyAttrib: public Tango::Attr
+//	Attribute thresholdEnergy class definition
+class thresholdEnergyAttrib: public Tango::Attr
 {
 public:
-	tresholdEnergyAttrib():Attr("tresholdEnergy",
+	thresholdEnergyAttrib():Attr("thresholdEnergy",
 			Tango::DEV_LONG, Tango::READ_WRITE) {};
-	~tresholdEnergyAttrib() {};
+	~thresholdEnergyAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<SlsDetector *>(dev))->read_tresholdEnergy(att);}
+		{(static_cast<SlsDetector *>(dev))->read_thresholdEnergy(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
-		{(static_cast<SlsDetector *>(dev))->write_tresholdEnergy(att);}
+		{(static_cast<SlsDetector *>(dev))->write_thresholdEnergy(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
-		{return (static_cast<SlsDetector *>(dev))->is_tresholdEnergy_allowed(ty);}
+		{return (static_cast<SlsDetector *>(dev))->is_thresholdEnergy_allowed(ty);}
 };
 
 //	Attribute clockDivider class definition
@@ -87,6 +87,207 @@ public:
 		{(static_cast<SlsDetector *>(dev))->write_clockDivider(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
 		{return (static_cast<SlsDetector *>(dev))->is_clockDivider_allowed(ty);}
+};
+
+//	Attribute configFileName class definition
+class configFileNameAttrib: public Tango::Attr
+{
+public:
+	configFileNameAttrib():Attr("configFileName",
+			Tango::DEV_STRING, Tango::READ) {};
+	~configFileNameAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_configFileName(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_configFileName_allowed(ty);}
+};
+
+//	Attribute rawMode class definition
+class rawModeAttrib: public Tango::Attr
+{
+public:
+	rawModeAttrib():Attr("rawMode",
+			Tango::DEV_BOOLEAN, Tango::READ_WRITE) {};
+	~rawModeAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_rawMode(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<SlsDetector *>(dev))->write_rawMode(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_rawMode_allowed(ty);}
+};
+
+//	Attribute readoutFlags class definition
+class readoutFlagsAttrib: public Tango::Attr
+{
+public:
+	readoutFlagsAttrib():Attr("readoutFlags",
+			Tango::DEV_STRING, Tango::READ_WRITE) {};
+	~readoutFlagsAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_readoutFlags(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<SlsDetector *>(dev))->write_readoutFlags(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_readoutFlags_allowed(ty);}
+};
+
+//	Attribute tolerateLostPackets class definition
+class tolerateLostPacketsAttrib: public Tango::Attr
+{
+public:
+	tolerateLostPacketsAttrib():Attr("tolerateLostPackets",
+			Tango::DEV_BOOLEAN, Tango::READ_WRITE) {};
+	~tolerateLostPacketsAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_tolerateLostPackets(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<SlsDetector *>(dev))->write_tolerateLostPackets(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_tolerateLostPackets_allowed(ty);}
+};
+
+//	Attribute nbBadFrames class definition
+class nbBadFramesAttrib: public Tango::Attr
+{
+public:
+	nbBadFramesAttrib():Attr("nbBadFrames",
+			Tango::DEV_LONG, Tango::READ) {};
+	~nbBadFramesAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_nbBadFrames(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_nbBadFrames_allowed(ty);}
+};
+
+//	Attribute hostnameList class definition
+class hostnameListAttrib: public Tango::SpectrumAttr
+{
+public:
+	hostnameListAttrib():SpectrumAttr("hostnameList",
+			Tango::DEV_STRING, Tango::READ, 64) {};
+	~hostnameListAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_hostnameList(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_hostnameList_allowed(ty);}
+};
+
+//	Attribute dacNameList class definition
+class dacNameListAttrib: public Tango::SpectrumAttr
+{
+public:
+	dacNameListAttrib():SpectrumAttr("dacNameList",
+			Tango::DEV_STRING, Tango::READ, 64) {};
+	~dacNameListAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_dacNameList(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_dacNameList_allowed(ty);}
+};
+
+//	Attribute dacNameListMv class definition
+class dacNameListMvAttrib: public Tango::SpectrumAttr
+{
+public:
+	dacNameListMvAttrib():SpectrumAttr("dacNameListMv",
+			Tango::DEV_STRING, Tango::READ, 64) {};
+	~dacNameListMvAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_dacNameListMv(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_dacNameListMv_allowed(ty);}
+};
+
+//	Attribute adcNameList class definition
+class adcNameListAttrib: public Tango::SpectrumAttr
+{
+public:
+	adcNameListAttrib():SpectrumAttr("adcNameList",
+			Tango::DEV_STRING, Tango::READ, 64) {};
+	~adcNameListAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_adcNameList(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_adcNameList_allowed(ty);}
+};
+
+//	Attribute allTrimBits class definition
+class allTrimBitsAttrib: public Tango::SpectrumAttr
+{
+public:
+	allTrimBitsAttrib():SpectrumAttr("allTrimBits",
+			Tango::DEV_LONG, Tango::READ_WRITE, 64) {};
+	~allTrimBitsAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_allTrimBits(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<SlsDetector *>(dev))->write_allTrimBits(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_allTrimBits_allowed(ty);}
+};
+
+//	Attribute badFrameList class definition
+class badFrameListAttrib: public Tango::SpectrumAttr
+{
+public:
+	badFrameListAttrib():SpectrumAttr("badFrameList",
+			Tango::DEV_LONG, Tango::READ, 100000) {};
+	~badFrameListAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<SlsDetector *>(dev))->read_badFrameList(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<SlsDetector *>(dev))->is_badFrameList_allowed(ty);}
+};
+
+
+//=========================================
+//	Define classes for commands
+//=========================================
+//	Command SetCmd class definition
+class SetCmdClass : public Tango::Command
+{
+public:
+	SetCmdClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	SetCmdClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~SetCmdClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<SlsDetector *>(dev))->is_SetCmd_allowed(any);}
+};
+
+//	Command GetCmd class definition
+class GetCmdClass : public Tango::Command
+{
+public:
+	GetCmdClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	GetCmdClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~GetCmdClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<SlsDetector *>(dev))->is_GetCmd_allowed(any);}
 };
 
 
