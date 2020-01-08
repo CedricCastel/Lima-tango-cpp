@@ -3144,6 +3144,57 @@ void LimaDetector::read_image_callback(yat4tango::DynamicAttributeReadCallbackDa
                                                );
                             break;
 
+                            //DEVENCODED
+                        case yat4tango::TangoTraits<Tango::DevEncoded>::type_id:
+                            DEBUG_STREAM << "image->set_value() : DevEncoded" << endl;
+
+                            if(last_image.mode() == lima::VideoMode::Y32)
+                            {
+                                unsigned char * rgb24  = NULL;
+                                int             width  = last_image.width();
+                                int             height = last_image.height();
+                                size_t          buffer_size = width * height * 3;
+
+                            #ifdef __unix
+	                            int ret = posix_memalign(reinterpret_cast<void * *>(&rgb24), 32, buffer_size);
+	                            if (ret != 0)
+                                    THROW_DEVFAILED("CONFIGURATION_ERROR",
+											        "Tango data type of image DynamicAttribute could not be allocated!\n",
+											        "LimaDetector::read_image_callback");
+                            #else
+	                            rgb24 = reinterpret_cast<unsigned char *>(_aligned_malloc(buffer_size,32));
+	                            if(!rgb24)
+                                    THROW_DEVFAILED("CONFIGURATION_ERROR",
+											        "Tango data type of image DynamicAttribute could not be allocated!\n",
+											        "LimaDetector::read_image_callback");
+                            #endif
+                                
+                                const char * source = last_image.buffer();
+	                            unsigned char * dest = rgb24;
+
+                                int nb_pixels_to_treat = height * width;
+
+                                while(nb_pixels_to_treat--)
+                                {
+                                    source++; // jump the alpha component
+                                    *dest++ = *source++; // B
+                                    *dest++ = *source++; // G
+                                    *dest++ = *source++; // R
+                                }
+
+                                m_encoded_buffer.encode_rgb24(rgb24, width, height);
+	                            //m_encoded_buffer.encode_jpeg_rgb24(rgb24, width, height, BUILD_IMAGE_COLOR_JPEG_RGB24_QUALITY);
+
+                                cbd.tga->set_value(&m_encoded_buffer);
+
+                            #ifdef __unix
+	                            free(rgb24);
+                            #else
+	                            _aligned_free(rgb24);
+                            #endif
+                            }
+                            break;
+
                             //ERROR : resolution not supported
                         default:
                             DEBUG_STREAM << "image->set_value() : ERROR, resolution not supported !" << endl;
@@ -4287,6 +4338,12 @@ void LimaDetector::configure_image_type(void)
 {
     HwDetInfoCtrlObj *hw_det_info;
     m_hw->getHwCtrlObj(hw_det_info);
+
+    if(detectorVideoMode == "BAYER_BG8")
+    {
+        hw_det_info->setCurrImageType(Bpp24);
+    }
+    else
     if(detectorPixelDepth == "2" ||detectorPixelDepth == "2A")
     {
         hw_det_info->setCurrImageType(Bpp2);
@@ -4356,6 +4413,7 @@ void LimaDetector::configure_video_mode(void)
     map_video_modes["YUV411"] = YUV411;
     map_video_modes["YUV422"] = YUV422;
     map_video_modes["YUV444"] = YUV444;
+    map_video_modes["BAYER_BG8"] = BAYER_BG8;
 
     transform(detectorVideoMode.begin(), detectorVideoMode.end(), detectorVideoMode.begin(), ::toupper);
     if(detectorVideoMode == "NONE")
@@ -4746,54 +4804,62 @@ void LimaDetector::add_image_dynamic_attribute(const std::string& attr_name)
     yat4tango::DynamicAttributeInfo dai;
     dai.dev = this;
 	dai.tai.name = attr_name;
-    dai.tai.data_format = Tango::IMAGE;
     dai.tai.max_dim_x = 100000; //- arbitrary big value
     dai.tai.max_dim_y = 100000; //- arbitrary big value
 
-    if(detectorPixelDepth == "8" ||detectorPixelDepth == "2")
+    if(detectorVideoMode == "BAYER_BG8")
     {
-        dai.tai.data_type = Tango::DEV_UCHAR;
+        dai.tai.data_format = Tango::SCALAR;
+        dai.tai.data_type = Tango::DEV_ENCODED;
     }
-    else if(detectorPixelDepth == "12" || detectorPixelDepth == "16" ||detectorPixelDepth == "14")
+    else
     {
-        dai.tai.data_type = Tango::DEV_USHORT;
-    }
-    else if(detectorPixelDepth == "24" || detectorPixelDepth == "32" || detectorPixelDepth == "2A")
-    {
-        dai.tai.data_type = Tango::DEV_ULONG;
-    }
-    else if(detectorPixelDepth == "16S")
-    {
-        dai.tai.data_type = Tango::DEV_USHORT;
-    }	
-    else if(detectorPixelDepth == "32S")
-    {
-        dai.tai.data_type = Tango::DEV_LONG;
-    }
-	else
-	{
-		stringstream ss;
-		ss << "DetectorPixelDepth " << "(" << detectorPixelDepth << ") is not supported!" << endl;
-		THROW_DEVFAILED("INTERNAL_ERROR",
-						(ss.str()).c_str(),
-						"LimaDetector::add_image_dynamic_attribute");
-		return;
-	}
+        dai.tai.data_format = Tango::IMAGE;
 
-    //- Check if specialDisplayType is set (FLOAT for example)
-    transform(specialDisplayType.begin(), specialDisplayType.end(), specialDisplayType.begin(), ::toupper);
-    if(specialDisplayType == "FLOAT") //- could be used by xpad for example
-    {
-        dai.tai.data_type = Tango::DEV_FLOAT;
-    }
+	    if(detectorPixelDepth == "8" ||detectorPixelDepth == "2")
+	    {
+	        dai.tai.data_type = Tango::DEV_UCHAR;
+	    }
+	    else if(detectorPixelDepth == "12" || detectorPixelDepth == "16" ||detectorPixelDepth == "14")
+	    {
+	        dai.tai.data_type = Tango::DEV_USHORT;
+	    }
+	    else if(detectorPixelDepth == "24" || detectorPixelDepth == "32" || detectorPixelDepth == "2A")
+	    {
+	        dai.tai.data_type = Tango::DEV_ULONG;
+	    }
+	    else if(detectorPixelDepth == "16S")
+	    {
+	        dai.tai.data_type = Tango::DEV_USHORT;
+	    }	
+        else if(detectorPixelDepth == "32S")
+        {
+            dai.tai.data_type = Tango::DEV_LONG;
+        }
+	    else
+	    {
+		    stringstream ss;
+		    ss << "DetectorPixelDepth " << "(" << detectorPixelDepth << ") is not supported!" << endl;
+		    THROW_DEVFAILED("INTERNAL_ERROR",
+						    (ss.str()).c_str(),
+						    "LimaDetector::add_image_dynamic_attribute");
+		    return;
+	    }
 
-    //- Check if accumulation mode
-    memorizedAcquisitionMode = yat4tango::PropertyHelper::get_property<std::string>(this, "MemorizedAcquisitionMode");
-    if(memorizedAcquisitionMode == "ACCUMULATION")
-    {
-        dai.tai.data_type = Tango::DEV_ULONG; //force to 32 bits if ACCUMULATION MODE, this is due to Lima core.
-    }
+        //- Check if specialDisplayType is set (FLOAT for example)
+        transform(specialDisplayType.begin(), specialDisplayType.end(), specialDisplayType.begin(), ::toupper);
+        if(specialDisplayType == "FLOAT") //- could be used by xpad for example
+        {
+            dai.tai.data_type = Tango::DEV_FLOAT;
+        }
 
+        //- Check if accumulation mode
+        memorizedAcquisitionMode = yat4tango::PropertyHelper::get_property<std::string>(this, "MemorizedAcquisitionMode");
+        if(memorizedAcquisitionMode == "ACCUMULATION")
+        {
+            dai.tai.data_type = Tango::DEV_ULONG; //force to 32 bits if ACCUMULATION MODE, this is due to Lima core.
+        }
+    }
 
     dai.tai.writable = Tango::READ;
     dai.tai.disp_level = Tango::OPERATOR;
