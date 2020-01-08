@@ -4,7 +4,7 @@
 //
 // description : Include for the LimaDetector class.
 //
-// project :	Lima Devie Generic
+// project :	Lima Device Generic
 //
 // $Author:  $
 //
@@ -1104,6 +1104,8 @@ protected:
     //- yat4tango Dynamic attributes & commands
     yat4tango::DynamicInterfaceManager	m_dim;
 
+    // use to transfert a color image to a TANGO client
+	Tango::EncodedAttribute	           m_encoded_buffer;
 } ;
 
 }    // namespace_ns
